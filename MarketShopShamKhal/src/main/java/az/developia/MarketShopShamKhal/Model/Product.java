@@ -1,6 +1,7 @@
 package az.developia.MarketShopShamKhal.Model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,9 +34,9 @@ public class Product {
 	
 	private Double cost;		// maya qiymeti
 	
-	private Date registerDate;	// sisteme elave edilme tarixi
+	private LocalDateTime registerDate;	// sisteme elave edilme tarixi
 	
-	private Date updateDate;	// editQuantity editOthers tarixi // mehsul ilk elave edilende bos olacaq
+	private LocalDateTime updateDate;	// editQuantity editOthers tarixi // mehsul ilk elave edilende bos olacaq
 	
 	private Double quantity;	// mehsulun miqdari // editQuantity zamani artacaq // satis olunduqca azalacaq // menfi olmasin
 	
