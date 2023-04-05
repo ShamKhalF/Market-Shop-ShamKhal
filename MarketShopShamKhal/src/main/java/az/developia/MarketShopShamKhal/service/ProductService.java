@@ -45,5 +45,18 @@ public class ProductService {
 		return p / 100;
 	}
 	
+	public void deleteById(Integer id) {
+		productRepository.deleteById(id);
+	}
+	
+public Product edit(Product product) {
+		product.setUpdateDate((LocalDateTime.now()));
+		product.setPercent(percent(product.getCost(), product.getPrice()));
+		return productRepository.save(product);
+	}
+
+public Product findById(Integer id) {
+	return productRepository.findById(id).get();
+}
 	
 }
