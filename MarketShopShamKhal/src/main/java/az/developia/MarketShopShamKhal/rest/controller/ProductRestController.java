@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.MarketShopShamKhal.Model.Product;
@@ -45,6 +46,13 @@ public class ProductRestController {
 	public Product edit(@RequestBody Product product) {			
 			return productService.edit(product);
 	}
+	
+	@GetMapping(path = "/search")
+	public List<Product> findAllSearch(@RequestParam(name = "q", required = false, defaultValue = "") String search){
+		return productService.findAllSearchAllFields(search);
+	}
+	
+	
 	
 	
 	
