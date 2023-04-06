@@ -62,5 +62,11 @@ public class ProductService {
 	public List<Product> findAllSearchAllFields(String search){
 		return productRepository.findAllSearchAllFields(search);
 	}
+	
+	public List<Product> findAllByBarcode(Integer barcode){
+		return productRepository.findAllByBarcode(barcode);
+	}
+	
+	
 
 }
