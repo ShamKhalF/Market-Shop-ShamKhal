@@ -1,15 +1,15 @@
 package az.developia.MarketShopShamKhal.service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import az.developia.MarketShopShamKhal.Model.Product;
+import az.developia.MarketShopShamKhal.Model.ProductForCashiers;
+import az.developia.MarketShopShamKhal.repository.ProductForCashierRepository;
 import az.developia.MarketShopShamKhal.repository.ProductRepository;
 
 @Service
@@ -17,6 +17,10 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private ProductForCashierRepository forCashierRepository;
+	
 
 	public List<Product> findAll() {
 		return productRepository.findAll();
@@ -26,12 +30,19 @@ public class ProductService {
 
 		product.setRegisterDate((LocalDateTime.now()));
 		product.setPercent(percent(product.getCost(), product.getPrice()));
+		
+		ProductForCashiers forCashiers = new ProductForCashiers();
+		
+		forCashiers.setId(product.getId());
+		forCashiers.setName(product.getName());
+		forCashiers.setBarcode(product.getBarcode());
+		forCashiers.setAvailableQuantity(product.getAvailableQuantity());
+		forCashiers.setDescription(product.getDescription());
+		forCashiers.setPrice(product.getPrice());
+		forCashierRepository.save(forCashiers);
 
 		return productRepository.save(product);
-		// id bazadan // name, barcode, price, description, cost, quantity post ile
-		// gelecek
-		// registerDate burdan gelir // updateDate eynisi amma edit zamani gelecek
-		// percent mentiqini burada yazacam
+		
 	}
 
 	private static Double percent(Double cost, Double price) {
@@ -63,8 +74,8 @@ public class ProductService {
 		return productRepository.findAllSearchAllFields(search);
 	}
 	
-	public List<Product> findAllByBarcode(Integer barcode){
-		return productRepository.findAllByBarcode(barcode);
+	public Optional<ProductForCashiers> findAllByBarcode(Integer barcode){
+		return forCashierRepository.findByBarcode(barcode);
 	}
 	
 	

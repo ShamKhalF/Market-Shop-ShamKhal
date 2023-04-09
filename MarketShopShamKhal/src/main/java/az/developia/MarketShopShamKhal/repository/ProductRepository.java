@@ -1,6 +1,7 @@
 package az.developia.MarketShopShamKhal.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 			+ "barcode like %?1% or cost like %?1% or quantity like %?1% or percent like %?1%", nativeQuery = true)
 	public List<Product> findAllSearchAllFields(String search);
 	
-	public List<Product> findAllByBarcode(Integer barcode);
+	// @Query(value = "select * from products where barcode like %?1%", nativeQuery = true)
+	public Optional<Product> findByBarcode(Integer barcode);
 	
 }

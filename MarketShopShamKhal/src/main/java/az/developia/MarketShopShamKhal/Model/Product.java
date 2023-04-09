@@ -38,7 +38,7 @@ public class Product {
 	
 	private LocalDateTime updateDate;	// editQuantity editOthers tarixi // mehsul ilk elave edilende bos olacaq
 	
-	private Double quantity;	// mehsulun miqdari // editQuantity zamani artacaq // satis olunduqca azalacaq // menfi olmasin
+	private Double availableQuantity;	// mehsulun miqdari // editQuantity zamani artacaq // satis olunduqca azalacaq // menfi olmasin
 	
 	private Double percent;		
 	// meselen cost = 50 azn, price = 60 azn, hesablanma mentiqi ise 60-50=10, (100% * 10) / 50  = 20%
