@@ -17,10 +17,9 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private ProductForCashierRepository forCashierRepository;
-	
 
 	public List<Product> findAll() {
 		return productRepository.findAll();
@@ -30,9 +29,8 @@ public class ProductService {
 
 		product.setRegisterDate((LocalDateTime.now()));
 		product.setPercent(percent(product.getCost(), product.getPrice()));
-		
-		ProductForCashiers forCashiers = new ProductForCashiers();
-		
+
+	ProductForCashiers forCashiers = new ProductForCashiers();
 		forCashiers.setId(product.getId());
 		forCashiers.setName(product.getName());
 		forCashiers.setBarcode(product.getBarcode());
@@ -40,9 +38,8 @@ public class ProductService {
 		forCashiers.setDescription(product.getDescription());
 		forCashiers.setPrice(product.getPrice());
 		forCashierRepository.save(forCashiers);
+	return productRepository.save(product);
 
-		return productRepository.save(product);
-		
 	}
 
 	private static Double percent(Double cost, Double price) {
@@ -63,21 +60,29 @@ public class ProductService {
 	public Product edit(Product product) {
 		product.setUpdateDate((LocalDateTime.now()));
 		product.setPercent(percent(product.getCost(), product.getPrice()));
+
+	ProductForCashiers forCashiers = new ProductForCashiers();
+		forCashiers.setId(product.getId());
+		forCashiers.setName(product.getName());
+		forCashiers.setBarcode(product.getBarcode());
+		forCashiers.setAvailableQuantity(product.getAvailableQuantity());
+		forCashiers.setDescription(product.getDescription());
+		forCashiers.setPrice(product.getPrice());
+	forCashierRepository.save(forCashiers);
+
 		return productRepository.save(product);
 	}
 
 	public Product findById(Integer id) {
 		return productRepository.findById(id).get();
 	}
-	
-	public List<Product> findAllSearchAllFields(String search){
+
+	public List<Product> findAllSearchAllFields(String search) {
 		return productRepository.findAllSearchAllFields(search);
 	}
-	
-	public Optional<ProductForCashiers> findAllByBarcode(Integer barcode){
+
+	public Optional<ProductForCashiers> findAllByBarcode(Integer barcode) {
 		return forCashierRepository.findByBarcode(barcode);
 	}
-	
-	
 
 }

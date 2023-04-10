@@ -1,5 +1,6 @@
 package az.developia.MarketShopShamKhal.rest.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,15 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.MarketShopShamKhal.Model.CartProduct;
 import az.developia.MarketShopShamKhal.Model.CustomerCheck;
-import az.developia.MarketShopShamKhal.Model.Product;
 import az.developia.MarketShopShamKhal.Model.ProductForCashiers;
 import az.developia.MarketShopShamKhal.dto.CustomerCheckDTO;
 import az.developia.MarketShopShamKhal.dto.ResponseCheckDTO;
-import az.developia.MarketShopShamKhal.repository.ProductForCashierRepository;
+import az.developia.MarketShopShamKhal.repository.CheckRepository;
 import az.developia.MarketShopShamKhal.service.CartService;
 import az.developia.MarketShopShamKhal.service.CheckService;
 import az.developia.MarketShopShamKhal.service.ProductService;
-import az.developia.MarketShopShamKhal.util.DateUtil;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -38,6 +37,9 @@ public class SalePageRestController {
 
 	@Autowired
 	private CheckService checkService;
+
+	@Autowired
+	private CheckRepository checkRepository;
 
 	@GetMapping(path = "/all-checks")
 	public List<CustomerCheck> findAllOrder() {
@@ -61,19 +63,31 @@ public class SalePageRestController {
 	}
 
 	@PostMapping(path = "/save-check")
-	public ResponseEntity<ResponseCheckDTO> placeOrder(@RequestBody CustomerCheckDTO checkDTO) {
+	public ResponseEntity<ResponseCheckDTO> saveCheck(@RequestBody CustomerCheckDTO checkDTO) {
 		ResponseCheckDTO responseCheckDTO = new ResponseCheckDTO();
 		Double totalPrice = checkService.getCartAmount(checkDTO.getCartItems());
 
-		CustomerCheck customerCheck = new CustomerCheck(checkDTO.getCashierName(), checkDTO.getCartItems(),
-				DateUtil.getCurrentDateTime(), totalPrice);
+		CustomerCheck customerCheck = new CustomerCheck(checkDTO.getCashierName(), checkDTO.getCartItems(), totalPrice);
 		customerCheck = checkService.saveCheck(customerCheck);
 
 		responseCheckDTO.setTotalPrice(totalPrice);
-		responseCheckDTO.setDate(DateUtil.getCurrentDateTime());
+		responseCheckDTO.setDate(customerCheck.getDate());
 		responseCheckDTO.setCheckId(customerCheck.getId());
 
 		return ResponseEntity.ok(responseCheckDTO);
+	}
+
+//	@GetMapping(path = "/partial/begin/{begin}/length/{length}")
+//	public List<Book> partialBooks(@PathVariable Integer begin, @PathVariable Integer length){
+//	
+
+	@GetMapping(path = "/search-by-date")
+	List<CustomerCheck> findByMyDateBetween(@RequestParam("startDate") String startDateString,
+			@RequestParam("endDate") String endDateString) {
+		
+		Timestamp startDate = Timestamp.valueOf(startDateString);
+		Timestamp endDate = Timestamp.valueOf(endDateString);
+		return checkRepository.findByDateBetween(startDate, endDate);
 	}
 
 }

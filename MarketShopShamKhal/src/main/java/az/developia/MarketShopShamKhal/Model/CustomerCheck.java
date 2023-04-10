@@ -1,5 +1,6 @@
 package az.developia.MarketShopShamKhal.Model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.ToString;
@@ -27,7 +30,8 @@ public class CustomerCheck {
 
     private String cashierName;
     
-    private String date;
+    @CreationTimestamp
+    private LocalDateTime date;
 
     private Double totalPrice;
     
@@ -39,10 +43,9 @@ public class CustomerCheck {
     public CustomerCheck() {
     }
 
-    public CustomerCheck(String cashierName, List<CartProduct> cartItems, String date, Double totalPrice) {
+    public CustomerCheck(String cashierName, List<CartProduct> cartItems, Double totalPrice) {
         this.cashierName = cashierName;
         this.cartItems = cartItems;
-        this.date = date;
         this.totalPrice = totalPrice;
     }
 
