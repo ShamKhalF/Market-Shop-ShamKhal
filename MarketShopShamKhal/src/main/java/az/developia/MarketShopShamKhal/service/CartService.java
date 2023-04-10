@@ -32,7 +32,7 @@ public class CartService {
 			if (cart.getProductBarcode().equals(productsss.getBarcode())) {
 				bp.setProductBarcode(productsss.getBarcode());
 				// bp.setProduct(productsss);
-				bp.setProductId(productsss.getId());
+				// bp.setProductId(productsss.getId());
 				bp.setProductName(productsss.getName());
 				bp.setProductPrice(productsss.getPrice());
 				bp.setProductSaleQuantity(cart.getProductSaleQuantity());

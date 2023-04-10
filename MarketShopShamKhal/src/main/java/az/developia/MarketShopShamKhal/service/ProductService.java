@@ -1,5 +1,6 @@
 package az.developia.MarketShopShamKhal.service;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +29,18 @@ public class ProductService {
 	public Product save(Product product) {
 
 		product.setRegisterDate((LocalDateTime.now()));
-		product.setPercent(percent(product.getCost(), product.getPrice()));
+//		if(product.getCost()<=product.getPrice()) {
+			product.setPercent(percent(product.getCost(), product.getPrice()));
+//		} else {
+//		}
 
 	ProductForCashiers forCashiers = new ProductForCashiers();
 		forCashiers.setId(product.getId());
 		forCashiers.setName(product.getName());
 		forCashiers.setBarcode(product.getBarcode());
+		if(product.getAvailableQuantity() == null) {
+			product.setAvailableQuantity(1.0);
+		}
 		forCashiers.setAvailableQuantity(product.getAvailableQuantity());
 		forCashiers.setDescription(product.getDescription());
 		forCashiers.setPrice(product.getPrice());
@@ -81,8 +88,8 @@ public class ProductService {
 		return productRepository.findAllSearchAllFields(search);
 	}
 
-	public Optional<ProductForCashiers> findAllByBarcode(Integer barcode) {
-		return forCashierRepository.findByBarcode(barcode);
+	public List<ProductForCashiers> findAllByBarcode(BigInteger barcode) {
+		return forCashierRepository.findAllByBarcode(barcode);
 	}
 
 }

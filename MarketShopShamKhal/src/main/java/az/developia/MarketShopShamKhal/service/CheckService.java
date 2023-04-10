@@ -1,5 +1,6 @@
 package az.developia.MarketShopShamKhal.service;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class CheckService {
 
 		for (CartProduct cart : cartList) {
 
-			int productBarcode = cart.getProductBarcode();
+			BigInteger productBarcode = cart.getProductBarcode();
 			Optional<Product> product = productRepository.findByBarcode(productBarcode);
 			Optional<ProductForCashiers> forCashier = forCashierRepository.findByBarcode(productBarcode);
 			if (product.isPresent() && forCashier.isPresent()) {
@@ -58,7 +59,7 @@ public class CheckService {
 				cart.setProductBarcode(product1.getBarcode());
 				cart.setProductPrice(product1.getPrice());
 				cart.setProductName(product1.getName());
-				cart.setProductId(product1.getId());
+				// cart.setProductId(product1.getId());
 				cart.setProductTotalPrice(productTotalPrice);
 
 				productRepository.save(product1);

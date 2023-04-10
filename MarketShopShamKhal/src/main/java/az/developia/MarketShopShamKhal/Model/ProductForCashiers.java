@@ -1,5 +1,7 @@
 package az.developia.MarketShopShamKhal.Model;
 
+import java.math.BigInteger;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +25,7 @@ public class ProductForCashiers {
 	
 	private String name;
 	
-	private Integer barcode;
+	private BigInteger barcode;
 	
 	private Double price;
 	

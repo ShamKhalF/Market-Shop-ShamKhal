@@ -1,6 +1,8 @@
 package az.developia.MarketShopShamKhal.Model;
 
 
+import java.math.BigInteger;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,24 +33,22 @@ public class CartProduct {
 	
 	private String productName;
 	
-	private Integer productBarcode;
+	private BigInteger productBarcode;
 	
 	private Double productPrice;
 	
 	private Double productTotalPrice;
 	
-	private Integer productId;
+	// private Integer productId;
 	    
 
-    public CartProduct(int productId, String productName, Double productSaleQuantity, Double productTotalPrice) {
-        this.productId = productId;
+    public CartProduct(String productName, Double productSaleQuantity, Double productTotalPrice) {
         this.productName = productName;
         this.productSaleQuantity = productSaleQuantity;
         this.productTotalPrice = productTotalPrice;
     }
 
-    public CartProduct(int productId, Double productSaleQuantity) {
-        this.productId = productId;
+    public CartProduct(Double productSaleQuantity) {
         this.productSaleQuantity = productSaleQuantity;
     }
 

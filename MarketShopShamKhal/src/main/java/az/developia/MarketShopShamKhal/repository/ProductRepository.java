@@ -1,5 +1,6 @@
 package az.developia.MarketShopShamKhal.repository;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	public List<Product> findAllSearchAllFields(String search);
 	
 	// @Query(value = "select * from products where barcode like %?1%", nativeQuery = true)
-	public Optional<Product> findByBarcode(Integer barcode);
+	public Optional<Product> findByBarcode(BigInteger barcode);
 	
 }

@@ -1,5 +1,6 @@
 package az.developia.MarketShopShamKhal.rest.controller;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +48,8 @@ public class SalePageRestController {
 	}
 
 	@GetMapping(path = "/find-by-barcode")
-	public Optional<ProductForCashiers> searchByBarcode(
-			@RequestParam(name = "barcode", required = false, defaultValue = "") Integer barcode) {
+	public List<ProductForCashiers> searchByBarcode(
+			@RequestParam(name = "barcode", required = false, defaultValue = "") BigInteger barcode) {
 		return productService.findAllByBarcode(barcode);
 	}
 
