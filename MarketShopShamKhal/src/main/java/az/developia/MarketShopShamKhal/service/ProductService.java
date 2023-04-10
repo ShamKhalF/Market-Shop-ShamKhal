@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,23 +31,20 @@ public class ProductService {
 	public Product save(Product product) {
 
 		product.setRegisterDate((LocalDateTime.now()));
-//		if(product.getCost()<=product.getPrice()) {
-			product.setPercent(percent(product.getCost(), product.getPrice()));
-//		} else {
-//		}
+		product.setPercent(percent(product.getCost(), product.getPrice()));
 
-	ProductForCashiers forCashiers = new ProductForCashiers();
+		ProductForCashiers forCashiers = new ProductForCashiers();
 		forCashiers.setId(product.getId());
 		forCashiers.setName(product.getName());
 		forCashiers.setBarcode(product.getBarcode());
-		if(product.getAvailableQuantity() == null) {
+		if (product.getAvailableQuantity() == null) {
 			product.setAvailableQuantity(1.0);
 		}
 		forCashiers.setAvailableQuantity(product.getAvailableQuantity());
 		forCashiers.setDescription(product.getDescription());
 		forCashiers.setPrice(product.getPrice());
 		forCashierRepository.save(forCashiers);
-	return productRepository.save(product);
+		return productRepository.save(product);
 
 	}
 
@@ -68,14 +67,14 @@ public class ProductService {
 		product.setUpdateDate((LocalDateTime.now()));
 		product.setPercent(percent(product.getCost(), product.getPrice()));
 
-	ProductForCashiers forCashiers = new ProductForCashiers();
+		ProductForCashiers forCashiers = new ProductForCashiers();
 		forCashiers.setId(product.getId());
 		forCashiers.setName(product.getName());
 		forCashiers.setBarcode(product.getBarcode());
 		forCashiers.setAvailableQuantity(product.getAvailableQuantity());
 		forCashiers.setDescription(product.getDescription());
 		forCashiers.setPrice(product.getPrice());
-	forCashierRepository.save(forCashiers);
+		forCashierRepository.save(forCashiers);
 
 		return productRepository.save(product);
 	}
@@ -90,6 +89,11 @@ public class ProductService {
 
 	public List<ProductForCashiers> findAllByBarcode(BigInteger barcode) {
 		return forCashierRepository.findAllByBarcode(barcode);
+	}
+
+	public Optional<Product> findByBarcode(BigInteger barcode) {
+
+		return productRepository.findByBarcode(barcode);
 	}
 
 }

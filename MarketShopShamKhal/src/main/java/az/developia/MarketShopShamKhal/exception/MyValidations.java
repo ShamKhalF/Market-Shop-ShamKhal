@@ -42,6 +42,25 @@ public class MyValidations {
 		dataWrapper.setValidations(errors);
 		return dataWrapper;
 	}
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public DataWrapper handleMyValidationExceptions(MySaleException e) {
+		
+		DataWrapper dataWrapper = new DataWrapper();
+		
+		List<ErrorResponse> errors = new ArrayList<>();
+		BindingResult br = e.getBr();
+		
+		for (FieldError error : br.getFieldErrors()) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setField(error.getField());
+			errorResponse.setMessage(error.getDefaultMessage());
+			errors.add(errorResponse);
+		}
+		
+		dataWrapper.setValidations(errors);
+		return dataWrapper;
+	}
 	
 	
 	

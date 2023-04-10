@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,10 +31,13 @@ public class CartProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Double productSaleQuantity;
+    @NotNull(message = "Satilan məhsulun sayı olmalıdır")
+    @Min(value = (long) 0.1, message = "Satılan məhsulun miqdarı 0 və ya mənfi olmamalıdır")
+    private Double productSaleQuantity; // validasiya elave edilecek menfi sayda satis olmasin
 	
 	private String productName;
 	
+    @NotNull(message = "Satilan məhsulun barcode-u düzgün əlavə olmalıdır")
 	private BigInteger productBarcode;
 	
 	private Double productPrice;

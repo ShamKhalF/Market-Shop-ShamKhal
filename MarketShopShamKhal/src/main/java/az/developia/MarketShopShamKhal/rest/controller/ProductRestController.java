@@ -1,6 +1,8 @@
 package az.developia.MarketShopShamKhal.rest.controller;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -35,12 +37,20 @@ public class ProductRestController {
 	}
 	
 	@PostMapping(path = "/save")
-	public Product save(@Valid @RequestBody Product product, BindingResult br) {
+	public Product save(@Valid @RequestBody Product product, BindingResult br) throws Exception {
 		if(br.hasErrors()) {
 			throw new MyProductSaveException(br);
 		}
-		product.setId(null);
+		
+		Optional<Product> barcodeOptional = productService.findByBarcode(product.getBarcode());
+		if(barcodeOptional.isPresent()) {
+			throw new Exception("'" + product.getBarcode() + "' nömrəli bu barcode-la məhsul artıq mövcuddur");
+		} else {
+			product.setId(null);
 		return productService.save(product);
+		}
+		
+		
 	}
 	
 	@DeleteMapping(path = "/delete/{id}")

@@ -3,10 +3,12 @@ package az.developia.MarketShopShamKhal.rest.controller;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import az.developia.MarketShopShamKhal.Model.CustomerCheck;
 import az.developia.MarketShopShamKhal.Model.ProductForCashiers;
 import az.developia.MarketShopShamKhal.dto.CustomerCheckDTO;
 import az.developia.MarketShopShamKhal.dto.ResponseCheckDTO;
+import az.developia.MarketShopShamKhal.exception.MySaleException;
 import az.developia.MarketShopShamKhal.repository.CheckRepository;
 import az.developia.MarketShopShamKhal.service.CartService;
 import az.developia.MarketShopShamKhal.service.CheckService;
@@ -63,8 +66,12 @@ public class SalePageRestController {
 		return cartService.save(cart);
 	}
 
+	
 	@PostMapping(path = "/save-check")
-	public ResponseEntity<ResponseCheckDTO> saveCheck(@RequestBody CustomerCheckDTO checkDTO) {
+	public ResponseEntity<ResponseCheckDTO> saveCheck(@Valid @RequestBody CustomerCheckDTO checkDTO, BindingResult br) {
+		if(br.hasErrors()) {
+			throw new MySaleException(br);
+		}
 		ResponseCheckDTO responseCheckDTO = new ResponseCheckDTO();
 		Double totalPrice = checkService.getCartAmount(checkDTO.getCartItems());
 
@@ -78,9 +85,7 @@ public class SalePageRestController {
 		return ResponseEntity.ok(responseCheckDTO);
 	}
 
-//	@GetMapping(path = "/partial/begin/{begin}/length/{length}")
-//	public List<Book> partialBooks(@PathVariable Integer begin, @PathVariable Integer length){
-//	
+
 
 	@GetMapping(path = "/search-by-date")
 	List<CustomerCheck> findByMyDateBetween(@RequestParam("startDate") String startDateString,

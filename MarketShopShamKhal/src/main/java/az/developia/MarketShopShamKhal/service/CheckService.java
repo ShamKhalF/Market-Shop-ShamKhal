@@ -30,18 +30,36 @@ public class CheckService {
 	public List<CustomerCheck> findAll() {
 		return checkRepository.findAll();
 	}
+	
+	
+
+//	
+//	Optional<UserModel> userOptional = userRepository.findById(user.getUsername());
+//	if(userOptional.isPresent()) {
+//		
+//		user.setUsername("");
+//		return user;
+//	} else {
+//		
+//		
+	
+	
 
 	public double getCartAmount(List<CartProduct> cartList) {
 
 		double totalPrice = 0;
 		double productTotalPrice = 0;
 		double availableQuantity = 0;
+		
 
 		for (CartProduct cart : cartList) {
-
+			
+			
+			
 			BigInteger productBarcode = cart.getProductBarcode();
 			Optional<Product> product = productRepository.findByBarcode(productBarcode);
 			Optional<ProductForCashiers> forCashier = forCashierRepository.findByBarcode(productBarcode);
+			
 			if (product.isPresent() && forCashier.isPresent()) {
 				Product product1 = product.get();
 				ProductForCashiers forCashiers = forCashier.get();

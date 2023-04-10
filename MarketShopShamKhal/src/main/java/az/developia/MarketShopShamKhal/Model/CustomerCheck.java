@@ -36,6 +36,7 @@ public class CustomerCheck {
     private Double totalPrice;
     
 
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = CartProduct.class)
     @JoinColumn(name = "check_id", referencedColumnName = "id")
     private List<CartProduct> cartItems;
