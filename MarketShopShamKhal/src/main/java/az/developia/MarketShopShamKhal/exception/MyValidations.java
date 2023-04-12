@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,12 @@ public class MyValidations {
 		return e.getMessage();
 	}
 	
+	
+	@ExceptionHandler(MyUserExceptions.class)
+	   public ResponseEntity<UserErrorResponse> handleCustomException(MyUserExceptions ex) {
+	      UserErrorResponse errorResponse = new UserErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+	      return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	   }
 	
 	
 	

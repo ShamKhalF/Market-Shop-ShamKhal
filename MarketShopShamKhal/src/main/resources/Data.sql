@@ -14,3 +14,13 @@ insert into product_cashier (name, barcode, description, price,  available_quant
 ('product4', 148965, 'product4 desc', 56.0, 12), 
 ('product5', 356214, 'product5 desc', 95.0, 15), 
 ('product6', 478569, 'product6 desc', 47.0, 17);
+
+
+
+insert into users (username, password, enabled) values 
+('admin', '{noop}12', 1), 
+('cashier', '{noop}12', 1);
+insert into authorities(username, authority) values 
+('admin', 'admin'), 
+('cashier', 'cashier');
+
