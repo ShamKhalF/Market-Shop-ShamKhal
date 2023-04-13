@@ -3,17 +3,22 @@ package az.developia.MarketShopShamKhal.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.MarketShopShamKhal.Model.Authority;
 import az.developia.MarketShopShamKhal.Model.User;
+import az.developia.MarketShopShamKhal.exception.MyProductSaveException;
 import az.developia.MarketShopShamKhal.exception.MyUserExceptions;
 import az.developia.MarketShopShamKhal.repository.AuthorityRepository;
 import az.developia.MarketShopShamKhal.repository.UserRepository;
@@ -45,7 +50,10 @@ public class UserController {
 	}
 	
 	@PostMapping(path = "/save-user")
-	public User saveUser(@RequestBody User u) throws Exception {
+	public User saveUser(@Valid @RequestBody User u, BindingResult br) throws Exception {
+		if(br.hasErrors()) {
+			throw new MyProductSaveException(br);
+		}
 		
 		Optional<User> userOptional = userRepository.findById(u.getUsername());
 		if(userOptional.isPresent()) {
@@ -86,7 +94,10 @@ public class UserController {
 	}
 	
 	@PutMapping(path = "/edit-user")
-	public User editUser(@RequestBody User u) throws Exception {
+	public User editUser(@Valid @RequestBody User u, BindingResult br) throws Exception {
+		if(br.hasErrors()) {
+			throw new MyProductSaveException(br);
+		}
 		
 		Optional<User> finded = userRepository.findById(u.getUsername());
 		if(finded.isEmpty()) {
@@ -102,6 +113,21 @@ public class UserController {
 		return userService.editUser(u);
 	}
 	
+	
+	@GetMapping(path = "/find-all-users")
+	public List<User> findAllUsername(@RequestParam(name = "username", required = false, defaultValue = "") String username){
+		return userRepository.findByUsername(username);
+	}
+	
+	@GetMapping(path = "/find-enabled-users")
+	public List<User> findAllUserEnabled(@RequestParam(name = "enabled", required = false, defaultValue = "") Integer enabled){
+		return userRepository.findByEnabled(enabled);
+	}
+	
+	@GetMapping(path = "/user-all-authorization")
+	public List<Authority> findUsersAuthorization(@RequestParam(name = "username", required = false, defaultValue = "") String username){
+		return authorityRepository.findUsersAuthorization(username);
+	}
 	
 	
 	

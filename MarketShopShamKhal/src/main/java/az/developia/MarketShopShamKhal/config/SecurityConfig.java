@@ -23,20 +23,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		.antMatchers(HttpMethod.POST, "/users/**").permitAll()
-		.anyRequest().authenticated().and().httpBasic();
-		
-		http.headers().frameOptions().disable();
-	}
-	
-	
-	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(ds);
 	}
 	
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeRequests()
+		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		.antMatchers("/h2-console/**").permitAll()
+		.anyRequest().authenticated().and().httpBasic()
+
+		.and().logout().permitAll();
+		
+		http.headers().frameOptions().disable();
+	}
+	
+
 	
 }

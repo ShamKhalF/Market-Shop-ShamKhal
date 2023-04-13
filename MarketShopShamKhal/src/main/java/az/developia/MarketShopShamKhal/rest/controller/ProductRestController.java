@@ -1,6 +1,5 @@
 package az.developia.MarketShopShamKhal.rest.controller;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.MarketShopShamKhal.Model.Product;
 import az.developia.MarketShopShamKhal.exception.MyProductSaveException;
+import az.developia.MarketShopShamKhal.exception.MyUserExceptions;
 import az.developia.MarketShopShamKhal.service.ProductService;
 
 @RestController
@@ -44,7 +44,7 @@ public class ProductRestController {
 		
 		Optional<Product> barcodeOptional = productService.findByBarcode(product.getBarcode());
 		if(barcodeOptional.isPresent()) {
-			throw new Exception("'" + product.getBarcode() + "' nömrəli bu barcode-la məhsul artıq mövcuddur");
+			throw new MyUserExceptions("'" + product.getBarcode() + "' nömrəli bu barcode-la məhsul artıq mövcuddur");
 		} else {
 			product.setId(null);
 		return productService.save(product);
@@ -60,7 +60,10 @@ public class ProductRestController {
 	
 	
 	@PutMapping(path = "/edit")
-	public Product edit(@RequestBody Product product) {			
+	public Product edit(@Valid @RequestBody Product product, BindingResult br) throws Exception {
+		if(br.hasErrors()) {
+			throw new MyProductSaveException(br);
+		}
 			return productService.edit(product);
 	}
 	

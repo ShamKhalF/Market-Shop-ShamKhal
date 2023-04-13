@@ -3,6 +3,7 @@ package az.developia.MarketShopShamKhal.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import az.developia.MarketShopShamKhal.Model.Authority;
@@ -16,7 +17,7 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+		
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
@@ -30,18 +31,22 @@ public class UserService {
 	
 	public User saveUser(User u) {
 		
-		u.setPassword("{noop}" + u.getPassword());
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		u.setPassword("{bcrypt}"+encoder.encode(u.getPassword()));
 		u.setEnabled(1);
 		Authority a = new Authority();
 		a.setUsername(u.getUsername());
-		a.setAuthority(u.getUsername() + ": no authority yet: edit user's authorities");
+		a.setAuthority(u.getUsername() + ": no authorization yet: edit user's authorities");
 		
 		authorityRepository.save(a);
 		return userRepository.save(u);
 	}
 	
 	public User editUser(User u) {
-		u.setPassword("{noop}" + u.getPassword());
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		u.setPassword("{bcrypt}"+encoder.encode(u.getPassword()));
 		
 		return userRepository.save(u);
 	}
