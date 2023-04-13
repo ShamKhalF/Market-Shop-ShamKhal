@@ -30,11 +30,6 @@ public class MyValidations {
 	   }
 	
 	
-	@ExceptionHandler(MyCheckCartExceptions.class)
-    public ResponseEntity<List<String>> handleMyException(MyCheckCartExceptions ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessages());
-    }
-	
 	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)

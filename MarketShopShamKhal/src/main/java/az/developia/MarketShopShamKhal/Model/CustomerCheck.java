@@ -24,31 +24,28 @@ import lombok.ToString;
 @Data
 public class CustomerCheck {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    private String cashierName;
-    
-    @CreationTimestamp
-    private LocalDateTime date;
+	private String cashierName;
 
-    private Double totalPrice;
-    
+	@CreationTimestamp
+	private LocalDateTime date;
 
-    
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = CartProduct.class)
-    @JoinColumn(name = "check_id", referencedColumnName = "id")
-    private List<CartProduct> cartItems;
+	private Double totalPrice;
 
-    public CustomerCheck() {
-    }
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = CartProduct.class)
+	@JoinColumn(name = "check_id", referencedColumnName = "id")
+	private List<CartProduct> cartItems;
 
-    public CustomerCheck(String cashierName, List<CartProduct> cartItems, Double totalPrice) {
-        this.cashierName = cashierName;
-        this.cartItems = cartItems;
-        this.totalPrice = totalPrice;
-    }
+	public CustomerCheck() {
+	}
 
-    
+	public CustomerCheck(String cashierName, List<CartProduct> cartItems, Double totalPrice) {
+		this.cashierName = cashierName;
+		this.cartItems = cartItems;
+		this.totalPrice = totalPrice;
+	}
+
 }

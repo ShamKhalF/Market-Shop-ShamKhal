@@ -1,12 +1,7 @@
 package az.developia.MarketShopShamKhal.Model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -30,17 +25,11 @@ public class User {
 	@NotEmpty(message = "istifadəçi adını boş saxlamaq olmaz")
 	@Size(min = 3, max = 15, message = "İstifadəçi adı 3-15 simvoldan ibarət olmalıdır")
 	private String username;
-	
+
 	private String password;
-	
+
 	@Min(value = 0, message = "İstifadəçinin aktivliyi 1 və ya 0 olmalıdır")
 	@Max(value = 1, message = "İstifadəçinin aktivliyi 1 və ya 0 olmalıdır")
 	private Integer enabled;
-	
-//	@OneToMany
-//	@JoinTable(name = "authorities",
-//	joinColumns = @JoinColumn(name="username"),
-//	inverseJoinColumns = @JoinColumn(name="id"))		
-//	private List<Authority> authorities;
-//	
+
 }

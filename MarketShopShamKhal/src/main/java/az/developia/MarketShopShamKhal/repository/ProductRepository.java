@@ -18,7 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 			+ "barcode like %?1% or cost like %?1% or quantity like %?1% or percent like %?1%", nativeQuery = true)
 	public List<Product> findAllSearchAllFields(String search);
 	
-	// @Query(value = "select * from products where barcode like %?1%", nativeQuery = true)
 	public Optional<Product> findByBarcode(BigInteger barcode);
 	
 }

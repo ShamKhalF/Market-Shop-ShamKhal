@@ -40,9 +40,6 @@ public class UserController {
 	private AuthorityRepository authorityRepository;
 	
 	
-	// @PreAuthorize(value = "hasAnyAuthority('admin')")
-	// @PreAuthorize(value = "hasAnyAuthority('cashier', 'admin')")
-	
 	@GetMapping(path = "/all-users")
 	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<User> findAllUsers(){
@@ -124,7 +121,7 @@ public class UserController {
 	}
 	
 	
-	@GetMapping(path = "/find-all-users")
+	@GetMapping(path = "/search-users-by-username")
 	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<User> findAllUsername(@RequestParam(name = "username", required = false, defaultValue = "") String username){
 		return userRepository.findByUsername(username);

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,20 +92,18 @@ public class SalePageRestController {
 		if(br.hasErrors()) {
 			throw new MySaleException(br);
 		}
-		
-//		Optional<Product> pList = productService.findByBarcode(checkDTO.getCartItems().get(0).getProductBarcode());
-//		
-//		if(!pList.get().getBarcode().equals(checkDTO.getCartItems().get(0).getProductBarcode())) {
-//			List<String> messages = Arrays.asList("Error 1", "Error 2", "Error 3");
-//			throw new MyCheckCartExceptions(messages);
-//		}
-		
+
+
+		String loggedInUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 		ResponseCheckDTO responseCheckDTO = new ResponseCheckDTO();
 		Double totalPrice = checkService.getCartAmount(checkDTO.getCartItems());
 
-		CustomerCheck customerCheck = new CustomerCheck(checkDTO.getCashierName(), checkDTO.getCartItems(), totalPrice);
+		CustomerCheck customerCheck = new CustomerCheck(loggedInUsername, checkDTO.getCartItems(), totalPrice);
 		customerCheck = checkService.saveCheck(customerCheck);
 
+		
+		
+		responseCheckDTO.setCashier(loggedInUsername);
 		responseCheckDTO.setTotalPrice(totalPrice);
 		responseCheckDTO.setDate(customerCheck.getDate());
 		responseCheckDTO.setCheckId(customerCheck.getId());

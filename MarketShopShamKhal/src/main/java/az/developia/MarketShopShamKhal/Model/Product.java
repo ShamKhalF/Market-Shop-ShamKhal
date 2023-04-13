@@ -55,7 +55,7 @@ private LocalDateTime updateDate;	// editQuantity editOthers tarixi // mehsul il
 	@Min(message = "Məhsulun mümkün miqdarı minimum 0 ola bilər. Mənfi sayda məhsul ola bilməz", value = 0)
 private Double availableQuantity;	// mehsulun miqdari // editQuantity zamani artacaq // satis olunduqca azalacaq // menfi olmasin
 	
-	@Min(message = "Məhsulun cost-u (maya dəyəri) price-dan (satış qiyməti)-dən az olmamalıdır", value = 0)
+	@Min(message = "Məhsulun cost-u (maya dəyəri) price-dan (satış qiyməti)-dən az olmamalıdır", value = (long) 0.1)
 private Double percent;		
 	// meselen cost = 50 azn, price = 60 azn, hesablanma mentiqi ise 60-50=10, (100% * 10) / 50  = 20%
 	

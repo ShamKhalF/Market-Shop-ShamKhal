@@ -14,9 +14,6 @@ import az.developia.MarketShopShamKhal.repository.ProductRepository;
 @Service
 public class CartService {
 
-//	@Autowired
-//	private OrderRepository orderRepository;
-
 	@Autowired
 	private CartRepository cartRepository;
 
@@ -31,8 +28,7 @@ public class CartService {
 		for (Product productsss : products) {
 			if (cart.getProductBarcode().equals(productsss.getBarcode())) {
 				bp.setProductBarcode(productsss.getBarcode());
-				// bp.setProduct(productsss);
-				// bp.setProductId(productsss.getId());
+				
 				bp.setProductName(productsss.getName());
 				bp.setProductPrice(productsss.getPrice());
 				bp.setProductSaleQuantity(cart.getProductSaleQuantity());
@@ -58,9 +54,5 @@ public class CartService {
 		return cartRepository.findAll();
 	}
 
-//	public Order getOrderDetail(int orderId) {
-//        Optional<Order> order = this.orderRepository.findById(orderId);
-//        return order.isPresent() ? order.get() : null;
-//    }
 
 }

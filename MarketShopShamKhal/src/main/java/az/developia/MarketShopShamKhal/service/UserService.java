@@ -61,10 +61,5 @@ public class UserService {
 		return authorityRepository.save(a);
 	}
 	
-
-	
-	
-	
-	
 	
 }
