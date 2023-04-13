@@ -23,11 +23,17 @@ public class MyValidations {
 	
 	
 	@ExceptionHandler(MyUserExceptions.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	   public ResponseEntity<UserErrorResponse> handleCustomException(MyUserExceptions ex) {
 	      UserErrorResponse errorResponse = new UserErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
 	      return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	   }
 	
+	
+	@ExceptionHandler(MyCheckCartExceptions.class)
+    public ResponseEntity<List<String>> handleMyException(MyCheckCartExceptions ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessages());
+    }
 	
 	
 	@ExceptionHandler

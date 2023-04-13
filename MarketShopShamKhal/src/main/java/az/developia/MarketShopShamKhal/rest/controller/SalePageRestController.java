@@ -2,7 +2,9 @@ package az.developia.MarketShopShamKhal.rest.controller;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.MarketShopShamKhal.Model.CartProduct;
 import az.developia.MarketShopShamKhal.Model.CustomerCheck;
+import az.developia.MarketShopShamKhal.Model.Product;
 import az.developia.MarketShopShamKhal.Model.ProductForCashiers;
 import az.developia.MarketShopShamKhal.dto.CustomerCheckDTO;
 import az.developia.MarketShopShamKhal.dto.ResponseCheckDTO;
+import az.developia.MarketShopShamKhal.exception.MyCheckCartExceptions;
 import az.developia.MarketShopShamKhal.exception.MySaleException;
 import az.developia.MarketShopShamKhal.repository.CheckRepository;
 import az.developia.MarketShopShamKhal.service.CartService;
@@ -72,6 +76,14 @@ public class SalePageRestController {
 		if(br.hasErrors()) {
 			throw new MySaleException(br);
 		}
+		
+//		Optional<Product> pList = productService.findByBarcode(checkDTO.getCartItems().get(0).getProductBarcode());
+//		
+//		if(!pList.get().getBarcode().equals(checkDTO.getCartItems().get(0).getProductBarcode())) {
+//			List<String> messages = Arrays.asList("Error 1", "Error 2", "Error 3");
+//			throw new MyCheckCartExceptions(messages);
+//		}
+		
 		ResponseCheckDTO responseCheckDTO = new ResponseCheckDTO();
 		Double totalPrice = checkService.getCartAmount(checkDTO.getCartItems());
 

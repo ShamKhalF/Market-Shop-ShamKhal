@@ -1,9 +1,11 @@
 package az.developia.MarketShopShamKhal.service;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.boot.archive.spi.ArchiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import az.developia.MarketShopShamKhal.Model.CartProduct;
 import az.developia.MarketShopShamKhal.Model.CustomerCheck;
 import az.developia.MarketShopShamKhal.Model.Product;
 import az.developia.MarketShopShamKhal.Model.ProductForCashiers;
+import az.developia.MarketShopShamKhal.exception.MyCheckCartExceptions;
+import az.developia.MarketShopShamKhal.exception.MyUserExceptions;
 import az.developia.MarketShopShamKhal.repository.CheckRepository;
 import az.developia.MarketShopShamKhal.repository.ProductForCashierRepository;
 import az.developia.MarketShopShamKhal.repository.ProductRepository;
@@ -54,6 +58,14 @@ public class CheckService {
 
 		for (CartProduct cart : cartList) {
 			
+//			Optional<Product> pList = productRepository.findByBarcode(cart.getProductBarcode());
+//			
+//				if(!pList.get().getBarcode().equals(cart.getProductBarcode())) {
+//					List<String> messages = Arrays.asList("Error 1", "Error 2", "Error 3");
+//					throw new MyCheckCartExceptions(messages);
+//				}
+//			
+			// MyUserExceptions(cart.getProductBarcode() + ": nömrəli barcode-da məhsul tapılmadı");
 			
 			
 			BigInteger productBarcode = cart.getProductBarcode();
