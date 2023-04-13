@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,11 +33,13 @@ public class ProductRestController {
 	private ProductService productService;
 	
 	@GetMapping
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<Product> findAll() {
 		return productService.findAll();
 	}
 	
 	@PostMapping(path = "/save")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public Product save(@Valid @RequestBody Product product, BindingResult br) throws Exception {
 		if(br.hasErrors()) {
 			throw new MyProductSaveException(br);
@@ -54,12 +57,14 @@ public class ProductRestController {
 	}
 	
 	@DeleteMapping(path = "/delete/{id}")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public void deleteById(@PathVariable Integer id) {
 		productService.deleteById(id);
 	}
 	
 	
 	@PutMapping(path = "/edit")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public Product edit(@Valid @RequestBody Product product, BindingResult br) throws Exception {
 		if(br.hasErrors()) {
 			throw new MyProductSaveException(br);
@@ -68,6 +73,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping(path = "/search")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<Product> findAllSearch(@RequestParam(name = "q", required = false, defaultValue = "") String search){
 		return productService.findAllSearchAllFields(search);
 	}

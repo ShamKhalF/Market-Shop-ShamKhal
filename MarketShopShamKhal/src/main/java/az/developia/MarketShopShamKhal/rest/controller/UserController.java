@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,17 +40,23 @@ public class UserController {
 	private AuthorityRepository authorityRepository;
 	
 	
+	// @PreAuthorize(value = "hasAnyAuthority('admin')")
+	// @PreAuthorize(value = "hasAnyAuthority('cashier', 'admin')")
+	
 	@GetMapping(path = "/all-users")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<User> findAllUsers(){
 		return userService.findAllUsers();
 	}
 	
 	@GetMapping(path = "/all-authorities")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<Authority> findAllAuthorities(){
 		return userService.findAllAuthorities();
 	}
 	
 	@PostMapping(path = "/save-user")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public User saveUser(@Valid @RequestBody User u, BindingResult br) throws Exception {
 		if(br.hasErrors()) {
 			throw new MyProductSaveException(br);
@@ -64,6 +71,7 @@ public class UserController {
 	}
 	
 	@PostMapping(path = "add-authority")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public Authority addAuthority(@RequestBody Authority a) throws Exception {
 		Optional<User> userOptional = userRepository.findById(a.getUsername());
 		if(userOptional.isEmpty()) {
@@ -82,6 +90,7 @@ public class UserController {
 	}
 	
 	@PutMapping(path = "/edit-authority")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public Authority editAuthority(@RequestBody Authority a) throws Exception {
 		
 		Optional<Authority> finded = authorityRepository.findById(a.getId());
@@ -94,6 +103,7 @@ public class UserController {
 	}
 	
 	@PutMapping(path = "/edit-user")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public User editUser(@Valid @RequestBody User u, BindingResult br) throws Exception {
 		if(br.hasErrors()) {
 			throw new MyProductSaveException(br);
@@ -115,16 +125,19 @@ public class UserController {
 	
 	
 	@GetMapping(path = "/find-all-users")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<User> findAllUsername(@RequestParam(name = "username", required = false, defaultValue = "") String username){
 		return userRepository.findByUsername(username);
 	}
 	
 	@GetMapping(path = "/find-enabled-users")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<User> findAllUserEnabled(@RequestParam(name = "enabled", required = false, defaultValue = "") Integer enabled){
 		return userRepository.findByEnabled(enabled);
 	}
 	
 	@GetMapping(path = "/user-all-authorization")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
 	public List<Authority> findUsersAuthorization(@RequestParam(name = "username", required = false, defaultValue = "") String username){
 		return authorityRepository.findUsersAuthorization(username);
 	}
