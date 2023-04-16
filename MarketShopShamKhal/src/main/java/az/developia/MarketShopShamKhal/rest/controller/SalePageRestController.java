@@ -112,5 +112,16 @@ public class SalePageRestController {
 	}
 
 
+	@GetMapping(path = "/search-carts-by-date")
+	@PreAuthorize(value = "hasAnyAuthority('admin')")
+	List<Object> findByMyDateCarts(@RequestParam("startDate") String startDateString,
+			@RequestParam("endDate") String endDateString) {
+		
+		Timestamp startDate = Timestamp.valueOf(startDateString);
+		Timestamp endDate = Timestamp.valueOf(endDateString);
+		return checkRepository.findByDateCarts(startDate, endDate);
+	}	
+	
+	
 
 }
